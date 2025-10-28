@@ -1,0 +1,13 @@
+package com.iua.gpi.lazabus.data.api
+
+import com.iua.gpi.lazabus.data.model.ParadaDummy
+import retrofit2.Response
+import retrofit2.http.GET
+
+
+interface ParadaService {
+
+    // dummy recuest
+    @GET(PARADA_URL)
+    suspend fun dummyGet(): Response<List<ParadaDummy>>
+}
