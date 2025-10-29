@@ -1,4 +1,4 @@
-package com.iua.gpi.lazabus.data.api
+package com.iua.gpi.lazabus.data.remote.service
 
 const val API = "/api"
 const val API_VERSION= "/v1"

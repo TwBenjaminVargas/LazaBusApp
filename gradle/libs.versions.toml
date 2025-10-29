@@ -11,6 +11,7 @@ composeBom = "2024.09.00"
 # LIBRERIAS AÑADIDAS
 retrofit = "2.9.0"
 okhttp-logging = "4.11.0" #logging-interceptor
+ksp = "2.0.21-1.0.17"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
