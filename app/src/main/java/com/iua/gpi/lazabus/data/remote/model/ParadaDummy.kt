@@ -1,4 +1,4 @@
-package com.iua.gpi.lazabus.data.model
+package com.iua.gpi.lazabus.data.remote.model
 
 /**
  * Ejemplo de modelo para implementaciones

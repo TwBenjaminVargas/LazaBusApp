@@ -1,6 +1,6 @@
-package com.iua.gpi.lazabus.data.api
+package com.iua.gpi.lazabus.data.remote.service
 
-import com.iua.gpi.lazabus.data.model.ParadaDummy
+import com.iua.gpi.lazabus.data.remote.model.ParadaDummy
 import retrofit2.Response
 import retrofit2.http.GET
 

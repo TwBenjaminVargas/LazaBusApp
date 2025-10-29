@@ -1,7 +1,7 @@
 package com.iua.gpi.lazabus.data.remote
 
 import com.iua.gpi.lazabus.BuildConfig
-import com.iua.gpi.lazabus.data.api.ParadaService
+import com.iua.gpi.lazabus.data.remote.service.ParadaService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.getValue
