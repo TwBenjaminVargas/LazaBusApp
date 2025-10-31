@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.iua.gpi.lazabus.ui.component.Greeting
+import com.iua.gpi.lazabus.ui.screen.MainScreen
 import com.iua.gpi.lazabus.ui.screen.Route
 
 @Composable
@@ -13,9 +14,10 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = Route.GreetingRoute.route // Usamos el 'route' del objeto
+        startDestination = Route.MainRoute.route // Usamos el 'route' del objeto
     ) {
         composable(Route.GreetingRoute.route) { Greeting("LazaBus") }
+        composable(Route.MainRoute.route) { MainScreen() }
         /*
          Navegacion con parametros
         composable(

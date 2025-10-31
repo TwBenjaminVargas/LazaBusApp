@@ -3,6 +3,7 @@ package com.iua.gpi.lazabus.ui.screen
 sealed class Route(val route: String) {
     // Pantalla sin argumentos
     object GreetingRoute : Route("greeting_screen")
+    object MainRoute : Route ("main_screen")
 
     /**
     // Pantalla con argumento obligatorio
