@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.iua.gpi.lazabus.ui.component.VoiceActionButton
 import com.iua.gpi.lazabus.R
 import com.iua.gpi.lazabus.ui.component.MapArea
+import com.iua.gpi.lazabus.ui.permission.MicPermissionRequest
 import com.iua.gpi.lazabus.ui.viewmodel.TtsViewModel
 
 // Definimos los colores principales para mantener la coherencia con el diseño de la captura
@@ -25,7 +26,10 @@ val LazabusBlue = Color(0xFF1E88E5) // Un azul brillante para el app bar y el bo
 @Composable
 fun MainScreen( viewModel: TtsViewModel = hiltViewModel()) {
 
+    MicPermissionRequest()
     viewModel.saludar()
+
+
     Scaffold(
         topBar = {
             TopAppBar(
