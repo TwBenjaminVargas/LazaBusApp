@@ -58,11 +58,22 @@ fun MainScreen( viewModel: TtsViewModel = hiltViewModel()) {
                     .padding(top = topPadding)
                     .background(Color(0xFFF0F0F0)) // Fondo ligero para el resto de la pantalla
             ) {
-                DestinoArea(destino = "Plaza San Martin") //todo: ver como integrar bien
+
                 // Área del Mapa (grande con desplazamiento)
                 MapArea(
                     modifier = Modifier.weight(1f).fillMaxWidth()
                 )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(LazabusBlue)
+                ) {
+                    DestinoArea(
+                        destino = "Plaza San Martín",
+                        modifier = Modifier.align(Alignment.TopCenter)
+                    )
+                }
 
                 Box(
                     modifier = Modifier
