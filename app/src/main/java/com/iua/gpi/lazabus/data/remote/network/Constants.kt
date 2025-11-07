@@ -5,7 +5,7 @@ object ApiRoutes {
 
     private const val API = "/api"
     private const val API_VERSION = "/v1"
-    const val BASE_URL = "$SERVER_URL$API$API_VERSION/"
+    const val BASE_URL = "$SERVER_URL/"
 
     const val PARADA = "paradas"
     const val RUTA = "rutas"

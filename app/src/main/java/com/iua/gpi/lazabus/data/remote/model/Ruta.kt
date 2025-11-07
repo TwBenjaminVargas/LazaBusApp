@@ -1,5 +1,8 @@
-package com.iua.gpi.lazabus.data.remote.model;
+package com.iua.gpi.lazabus.data.remote.model
 
-public class Ruta {
-
-}
+data class Ruta(
+    val id_ruta: String,
+    val nombre: String,
+    val descripcion: String,
+    val paradas: List<ParadaCompleta>
+)

@@ -17,38 +17,21 @@ import com.iua.gpi.lazabus.ui.AppNavigation
 import com.iua.gpi.lazabus.ui.component.Greeting
 import com.iua.gpi.lazabus.ui.theme.LazaBusTheme
 import com.iua.gpi.lazabus.ui.viewmodel.ParadaViewModel
+import com.iua.gpi.lazabus.ui.viewmodel.RutaViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private val viewModel: ParadaViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.cargaParadaPorId(
-            id = 3,
-            onResult = { parada ->
-                println("✅ Parada recibida: $parada")
-            },
-            onError = { error ->
-                println("❌ Error: ${error.message}")
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        enableEdgeToEdge()
+        setContent {
+            LazaBusTheme {
+                AppNavigation()
             }
-        )
+        }
     }
 }
-//@AndroidEntryPoint
-//class MainActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-//        enableEdgeToEdge()
-//        setContent {
-//            LazaBusTheme {
-//                AppNavigation()
-//            }
-//        }
-//    }
-//}
