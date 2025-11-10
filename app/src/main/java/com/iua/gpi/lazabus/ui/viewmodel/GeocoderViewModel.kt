@@ -59,8 +59,11 @@ class GeocoderViewModel @Inject constructor(
             _geocoderState.update { currentState ->
                 result.fold(
                     onSuccess = { address ->
+                        val direccionCompleta = address.getAddressLine(0) // <--- ESTA ES LA DIRECCIÓN REAL
+
                         val coords = formatAddress(address)
-                        Log.i(TAG, "Ubicación encontrada: Lat=${address.latitude}, Lon=${address.longitude}, Nombre=${address.featureName}")
+                        Log.i(TAG, "Ubicación encontrada: $direccionCompleta (Lat=${address.latitude}, Lon=${address.longitude})")
+
                         currentState.copy(
                             coordenadas = coords,
                             location = address,
@@ -81,6 +84,7 @@ class GeocoderViewModel @Inject constructor(
                         )
                     }
                 )
+
             }
         }
     }

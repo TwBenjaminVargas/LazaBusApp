@@ -9,6 +9,14 @@ import com.iua.gpi.lazabus.ui.viewmodel.RutaViewModel
 import com.iua.gpi.lazabus.ui.viewmodel.SttViewModel
 import com.iua.gpi.lazabus.ui.viewmodel.TtsViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import java.text.Normalizer
+
+private fun normalize(text: String): String {
+    return Normalizer.normalize(text, Normalizer.Form.NFD)
+        .replace(Regex("\\p{InCombiningDiacriticalMarks}+"), "")
+}
 
 val SPEACH_WAIT_TIME : Long = 5000
 val SPEACH_SHORT_WAIT_TIME : Long = 2000
@@ -39,6 +47,7 @@ suspend fun manageInteraction(
     delay(SPEACH_WAIT_TIME)
     sttviewmodel.stopVoiceInput()
 
+
     while(sttviewmodel.recognitionError.value || sttviewmodel.uiText.value == "")
     {
         buttonManagerViewModel.updateState(InteractionState.SPEAKING)
@@ -51,23 +60,56 @@ suspend fun manageInteraction(
     }
 
     buttonManagerViewModel.updateState(InteractionState.SPEAKING)
-
+    val textoDestino = sttviewmodel.uiText.value.trim()
     ttsviewModel.hablar("Perfecto, entendí que te interesa ir a " + sttviewmodel.uiText.value)
+    Log.i(TAG,"destino " + sttviewmodel.uiText.value)
     delay(SPEACH_LONG_WAIT_TIME)
 
     buttonManagerViewModel.updateState(InteractionState.PROCESSING)
     ttsviewModel.hablar("Buscando la mejor ruta a tu destino")
     delay(SPEACH_WAIT_TIME)
 
-    geocoderViewModel.buscarUbicacion(sttviewmodel.uiText.value)
+    val origen = locationViewModel.currentLocation.value
+    Log.i(TAG," origen " + origen?.latitude)
 
-    rutaViewModel.calcularRutaOptima(-31.412684894741222,-64.20055023585927,-31.4328235977395, -64.27699975384215,
+
+    val textoDestinoLimpio = normalize(textoDestino)
+    Log.i(TAG, "texto limpio" + textoDestinoLimpio)
+    geocoderViewModel.buscarUbicacion(textoDestinoLimpio)
+
+    var destino = geocoderViewModel.geocoderState.value.location
+    while(destino == null)
+    {
+        delay(300)
+        destino = geocoderViewModel.geocoderState.value.location
+        Log.i(TAG," no se encontro destino ")
+    }
+
+
+    rutaViewModel.calcularRutaOptima(
+        origen?.latitude ?: -31.4126,
+        origen?.longitude ?: -64.2005,
+        destino.latitude,
+        destino.longitude,
         { e ->
-            Log.e(TAG, "Fallo calculo de ruta error: " + e)
-        })
-    Log.i(TAG, "Ruta a indicar: " + rutaViewModel.rutaOptima.value?.ruta?.nombre)
-    ttsviewModel.hablar("""La mejor ruta, en base a tu ubicación actual y el destino deseado es 
-        ${rutaViewModel.rutaOptima.value?.ruta?.nombre}
-    """)
+            Log.e(TAG, "Fallo calculo de ruta error: $e")
+        }
+    )
+
+    val rutaOptima = rutaViewModel.rutaOptima
+        .filterNotNull()
+        .first()
+
+    val nombreRuta = rutaOptima.ruta.nombre
+    val empresaRuta = rutaOptima.ruta.descripcion
+    val paradaOrigen= rutaOptima.paradaOrigen.nombre
+    val distanciaOrigen = rutaOptima.distanciaOrigen
+    val paradaDestino = rutaOptima.paradaDestino.nombre
+    val distanciaDestino = rutaOptima.distanciaDestino
+
+
+    ttsviewModel.hablar(
+        "La mejor ruta, en base a tu ubicación actual y el destino deseado es la ruta $nombreRuta de la empresa $empresaRuta, la parada mas cercana a tu ubicacion esta a $distanciaOrigen metros en $paradaOrigen, te tendras que bajar en la parada $paradaDestino que esta a $distanciaDestino metros de $textoDestino"
+    )
 
 }
