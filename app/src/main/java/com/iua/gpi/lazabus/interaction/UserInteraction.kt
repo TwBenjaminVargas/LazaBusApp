@@ -80,7 +80,7 @@ suspend fun manageInteraction(
     var destino = geocoderViewModel.geocoderState.value.location
     while(destino == null)
     {
-        delay(300)
+        delay(100)
         destino = geocoderViewModel.geocoderState.value.location
         Log.i(TAG," no se encontro destino ")
     }
@@ -109,9 +109,13 @@ suspend fun manageInteraction(
     val paradaDestino = rutaOptima.paradaDestino.nombre
     val distanciaDestino = rutaOptima.distanciaDestino
 
+    Log.i(TAG,"La mejor ruta, en base a tu ubicación actual y el destino deseado es la ruta $nombreRuta de la empresa $empresaRuta, la parada mas cercana a tu ubicacion esta a $distanciaOrigen metros en $paradaOrigen, te tendras que bajar en la parada $paradaDestino que esta a $distanciaDestino metros de $textoDestino")
 
     ttsviewModel.hablar(
-        "La mejor ruta, en base a tu ubicación actual y el destino deseado es la ruta $nombreRuta de la empresa $empresaRuta, la parada mas cercana a tu ubicacion esta a $distanciaOrigen metros en $paradaOrigen, te tendras que bajar en la parada $paradaDestino que esta a $distanciaDestino metros de $textoDestino"
+        "La mejor ruta, en base a tu ubicación actual y el destino deseado es la ruta ${nombreRuta}" +
+                " de la empresa $empresaRuta, la parada mas cercana a tu ubicacion esta a" + String.format("%.0f", distanciaOrigen * 1000) +
+                " metros en $paradaOrigen, te tendras que bajar en la parada $paradaDestino que esta a " +
+                String.format("%.0f", distanciaDestino * 1000) + " metros de $textoDestino"
     )
 
 }
