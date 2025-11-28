@@ -8,7 +8,6 @@ import com.iua.gpi.lazabus.ui.viewmodel.LocationViewModel
 import com.iua.gpi.lazabus.ui.viewmodel.RutaViewModel
 import com.iua.gpi.lazabus.ui.viewmodel.SttViewModel
 import com.iua.gpi.lazabus.ui.viewmodel.TtsViewModel
-import com.iua.gpi.lazabus.ui.viewmodel.ViajeViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -29,9 +28,7 @@ suspend fun manageInteraction(
     geocoderViewModel: GeocoderViewModel,
     locationViewModel: LocationViewModel,
     rutaViewModel: RutaViewModel,
-    buttonManagerViewModel: ButtonManagerViewModel,
-    viajeViewModel: ViajeViewModel
-
+    buttonManagerViewModel: ButtonManagerViewModel
 )
 {
     buttonManagerViewModel.updateState(InteractionState.SPEAKING)
@@ -111,15 +108,6 @@ suspend fun manageInteraction(
     val distanciaOrigen = rutaOptima.distanciaOrigen
     val paradaDestino = rutaOptima.paradaDestino.nombre
     val distanciaDestino = rutaOptima.distanciaDestino
-
-    viajeViewModel.agregarViaje(
-        ruta = nombreRuta,
-        descripcionRuta = empresaRuta,
-        origen = "Lat: " + origen?.latitude.toString() + ", Lon: " + origen?.longitude.toString(),
-        destino = textoDestino,
-        paradaOrigen = paradaOrigen,
-        paradaDestino = paradaDestino
-    )
 
     Log.i(TAG,"La mejor ruta, en base a tu ubicación actual y el destino deseado es la ruta $nombreRuta de la empresa $empresaRuta, la parada mas cercana a tu ubicacion esta a $distanciaOrigen metros en $paradaOrigen, te tendras que bajar en la parada $paradaDestino que esta a $distanciaDestino metros de $textoDestino")
 
